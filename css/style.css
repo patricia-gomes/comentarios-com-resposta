@@ -1,0 +1,12 @@
+body {
+	font-family: 'arial';
+}
+input {
+	height: 28px;
+	border: 1px solid #b7ccbd;
+}
+textarea {
+	width: 400px;
+	height: 170px;
+	border-color: #b7ccbd;
+}

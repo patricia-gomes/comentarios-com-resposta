@@ -23,6 +23,21 @@ if(!empty($_GET['id'])) {
 		<?php else: ?>
 			<p>Conteúdo não encontrado!!</p>
 		<?php endif; ?>
+	<!---Exibe a quantidade de comentários--->
+	<p>
+		<?php if(count_comments($_GET['id'])) :
+
+		$qt = count_comments($_GET['id']);
+		if($qt == 1) : ?>
+			<p class="color_comment"><a href="comments.php?id=<?php echo $_GET['id']; ?>" ><?php echo $qt." comentário"; ?></a></p>
+		<?php else: ?>
+			<p class='color_comment'><a href="comments.php?id=<?php echo $_GET['id']; ?>" ><?php echo $qt." comentários"; ?></a></p>
+		<?php endif; ?>
+		<?php else: ?>
+			<p class='color_comment'>0 comentário</p>
+		<?php endif; ?>
+	</p>
+	<!----- FIM ----->
 <hr/>
 <!---------- FORMULÁRIO PARA OS COMENTÁRIOS --------------->
 
@@ -41,29 +56,29 @@ if(!empty($_GET['id'])) {
 <!---------- FIM DO FORMULÁRIO PARA OS COMENTÁRIOS--------------->
 <div class="area_comments">
 	<?php if(!empty($comment)):  ?>
+	
+		<?php foreach($comment[NULL] as $id_comentario => $value): ?>
 
-		<?php foreach($comment as $value): ?>
 		<div class="comments">
 			<!---------- EXIBE OS COMENTÁRIOS --------------->
-			<?php if($value['indice_comment'] == 0) : ?>
 				<div class="box_comments">
 					<ul>
 						<li class="name_comment"><strong><?php echo $value['name'];  ?></strong></li>
 						<li class="date_time"><?php echo formatoDataHora($value['date_time']);  ?></li>
-						<li class="comment"><?php echo $value['comment'];  ?></li>
+						<li class="comment"><?php echo utf8_decode($value['comment']);  ?></li>
 					</ul>
 				</div>
 				<div class="open_comment">
 					<button type="button" class="button_resp">Responder</button>
 				</div>
-			<!---------- FIM DA EXIBIÇÃO DOS COMENTÁRIOS --------------->
-			<!---------- FORMULÁRIO PARA AS RESPOSTAS --------------->
+		<!---------- FIM DA EXIBIÇÃO DOS COMENTÁRIOS --------------->
+		<!---------- FORMULÁRIO PARA AS RESPOSTAS --------------->
 			<div class="comment_hidden" >
 				<h4 class="h4_comentario">Sua resposta:</h4>
 
 				<form method="POST" class="form_resposta" name="form_resp" action="responder.php" >
 					<input type="hidden" name="id_comentario" value="<?php echo $value['id'];  ?></">
-					<input type="hidden" name="id_post" value="<?php echo $value['id_post'];  ?></">
+					<input type="hidden" name="id_post" value="<?php echo $_GET['id']; ?>">
 
 					<textarea class="caixa_comentarios" name="comentario" required="required" id="comentario_resposta" class="comentario_resposta"></textarea><br/><br/>
 
@@ -77,15 +92,16 @@ if(!empty($_GET['id'])) {
 			<!---------- FIM DO FORMULÁRIO PARA AS RESPOSTAS --------------->
 		</div>
 
-	<?php else: ?>
-
+<!--Se houver resposta a um cometário, exibe abaixo-->
+		<?php if(isset($comment[$id_comentario])): ?>
+		<?php foreach($comment[$id_comentario] as $id => $values): ?>
 		<div class="answer">
 		<!---------- EXIBE AS RESPOSTAS --------------->
 			<div class="box_comments">
 				<ul>
-					<li class="name_comment"><strong><?php echo $value['name'];  ?></strong></li>
-					<li class="date_time"><?php echo formatoDataHora($value['date_time']);  ?></li>
-					<li class="comment"><?php echo $value['comment'];  ?></li>
+					<li class="name_comment"><strong><?php echo $values['name'];  ?></strong></li>
+					<li class="date_time"><?php echo formatoDataHora($values['date_time']);  ?></li>
+					<li class="comment"><?php echo utf8_decode($values['comment']);  ?></li>
 				</ul>
 			</div>
 			<div class="open_comment">
@@ -97,8 +113,8 @@ if(!empty($_GET['id'])) {
 				<h4 class="h4_comentario">Sua resposta:</h4>
 
 				<form method="POST" class="form_resposta" name="form_resp" action="responder.php" >
-					<input type="hidden" name="id_comentario" value="<?php echo $value['id'];  ?></">
-					<input type="hidden" name="id_post" value="<?php echo $value['id_post'];  ?></">
+					<input type="hidden" name="id_comentario" value="<?php echo $id_comentario;  ?></">
+					<input type="hidden" name="id_post" value="<?php echo $_GET['id']; ?>">
 
 					<textarea class="caixa_comentarios" name="comentario" required="required" id="comentario_resposta" class="comentario_resposta"></textarea><br/><br/>
 
@@ -111,9 +127,11 @@ if(!empty($_GET['id'])) {
 			</div><br/>
 			<!---------- FIM DO FORMULÁRIO PARA ENVIAR AS RESPOSTAS --------------->
 		</div>
-	<?php endif; ?>
 		<?php endforeach; ?>
-	<!-- Se não tiver nenhum comentário cadastrado entra no else:  -->
+		<?php endif; ?>
+
+	<?php endforeach; ?>
+	<!-- Se não tiver nenhum comentário cadastrado entra no else abaixo:  -->
 	<?php else: ?>
 			<p><strong>Seja o primeiro a comentar!</strong></p>
 	<?php endif; ?>

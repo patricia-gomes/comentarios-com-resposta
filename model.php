@@ -2,32 +2,29 @@
 include 'connect.php';//conexão com o banco
 
 	//Insere no banco
-	function insert($name, $email, $comment, $id_post, $id_resp = NULL, $indice_comment = 0) {
+	function insert($name, $email, $comment, $id_post, $id_resp = NULL) {
 		global $pdo;
 
 		/*Se o id_resp não foi enviado insere como comentário, caso contrário insere como resposta*/
 		if($id_resp == NULL) { 
 			//Insere como comentário
-			$sql = "INSERT INTO comments (name, email, id_post, comment, id_resp, indice_comment, date_time) VALUES (:name, :email, :id_post, :comment, :id_resp, :indice_comment, NOW())";
+			$sql = "INSERT INTO comments (name, email, id_post, comment, id_resp, date_time) VALUES (:name, :email, :id_post, :comment, :id_resp, NOW())";
 			$sql = $pdo->prepare($sql);
 			$sql->bindValue(":name", $name);
 			$sql->bindValue(":email", $email);
 			$sql->bindValue(":id_post", $id_post);
 			$sql->bindValue(":comment", $comment);
 			$sql->bindValue(":id_resp", $id_resp);
-			$sql->bindValue(":indice_comment", $indice_comment);
 			$sql->execute();
 		} else {
 			//Insere como resposta
-			$indice_comment = 1;//valor de resposta
-			$sql = "INSERT INTO comments (name, email, id_post, comment, id_resp, indice_comment, date_time) VALUES (:name, :email, :id_post, :comment, :id_resp, :indice_comment, NOW())";
+			$sql = "INSERT INTO comments (name, email, id_post, comment, id_resp, date_time) VALUES (:name, :email, :id_post, :comment, :id_resp, NOW())";
 			$sql = $pdo->prepare($sql);
 			$sql->bindValue(":name", $name);
 			$sql->bindValue(":email", $email);
 			$sql->bindValue(":id_post", $id_post);
 			$sql->bindValue(":comment", $comment);
 			$sql->bindValue(":id_resp", $id_resp);
-			$sql->bindValue(":indice_comment", $indice_comment);
 			$sql->execute();
 		}
 	}
@@ -71,16 +68,22 @@ include 'connect.php';//conexão com o banco
 		$sql = $pdo->prepare($sql);
 		$sql->bindValue(':id_post', $id_post);
 		$sql->execute();
-
-		//Verifica se existe algo cadastrado
+		
+		$comments = array();
 		if($sql->rowCount() > 0) {
-			//fetchAll() para pegar todos os resultados
-			return $sql->fetchAll(\PDO::FETCH_ASSOC);
-		} else {
-			return false;
-		}
 
+			while($campos = $sql->fetchObject()) {
+				$comments[$campos->id_resp][$campos->id] = array(
+					'name'=>$campos->name, 'comment'=>$campos->comment,
+					'date_time'=>$campos->date_time,
+					'id'=>$campos->id, 'id_resp'=>$campos->id_resp
+				);
+			}	
+			//echo "<pre>";print_r($comments);exit;
+			return $comments;
+		}
 	}
+
 	//Conta a quantidade de comentários tem cada artigo
 	function count_comments($id_post) {
 		global $pdo;

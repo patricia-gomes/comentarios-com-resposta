@@ -23,7 +23,6 @@ CREATE TABLE `comments` (
 	`email` VARCHAR(100) NOT NULL COLLATE 'latin1_swedish_ci',
 	`date_time` DATETIME NOT NULL,
 	`id_resp` INT(11) NULL DEFAULT NULL,
-	`indice_comment` TINYINT(2) NOT NULL DEFAULT '0',
 	PRIMARY KEY (`id`) USING BTREE
 )
 COLLATE='latin1_swedish_ci'
@@ -55,10 +54,11 @@ INSERT INTO artigos (id, title, comment, ) VALUES
 <p>Tellus pellentesque eu tincidunt tortor aliquam nulla facilisi cras fermentum. Diam vel quam elementum pulvinar etiam. Eget mauris pharetra et ultrices neque ornare aenean euismod. Pellentesque dignissim enim sit amet venenatis urna cursus eget nunc. Porttitor lacus luctus accumsan tortor posuere ac ut consequat. Gravida quis blandit turpis cursus in hac habitasse platea. Adipiscing bibendum est ultricies integer quis auctor elit sed. Eget velit aliquet sagittis id consectetur purus ut faucibus. Faucibus turpis in eu mi bibendum neque egestas. Pharetra diam sit amet nisl suscipit. Semper viverra nam libero justo laoreet sit amet. Ullamcorper sit amet risus nullam eget felis. Non tellus orci ac auctor augue mauris augue. Nisi quis eleifend quam adipiscing vitae. Ultricies mi quis hendrerit dolor magna. In cursus turpis massa tincidunt dui ut ornare lectus sit. Sed tempus urna et pharetra pharetra.</p>');
 
 -- Inserindo os dados na tabela 'comments'
-INSERT INTO comments (id, id_post, comment, name, email, date_time, id_resp, indice_comment) VALUES
-(1, 1, 'Esse Ã© o primeiro comentÃ¡rio nesse post!!', 'Patricia Gomes', 'patricia18@gmail.com', '2020-06-11 11:05:14', NULL, 0),
-(2, 1, 'Esse Ã© o segundo comentÃ¡rio!!', 'Paulo da Silva', 'paulo@gmail.com', '2020-06-13 18:25:52', NULL, 0),
-(3, 1, 'Respondendo o comentÃ¡rio do Paulo!!', 'Laura', 'laura@gmail.com', '2020-06-15 17:52:13', 2, 1),
-(4, 1, 'Segunda reposta para Paulo!!', 'Maicon Tulio', 'maicon@gmail.com', '2020-06-17 18:07:34', 2, 1),
-(5, 1, 'O terceiro comentÃ¡rio nesse post!!', 'Miguel Palantino', 'miguel@gmail.com', '2020-06-17 18:16:18', NULL, 0),
-(6, 4, 'Primeiro comentÃ¡rio do quarto tÃ­tulo!', 'Tulio', 'tulio@gmail', '2020-06-17 20:56:14', NULL, 0);
+INSERT INTO comments (id, id_post, comment, name, email, date_time, id_resp) VALUES
+(1, 1, 'Esse Ã© o primeiro comentÃ¡rio nesse post!!', 'Patricia Gomes', 'patricia18@gmail.com', '2020-06-11 11:05:14', NULL),
+(2, 1, 'Esse Ã© o segundo comentÃ¡rio!!', 'Paulo da Silva', 'paulo@gmail.com', '2020-06-13 18:25:52', NULL),
+(3, 1, 'Respondendo o comentÃ¡rio do Paulo!!', 'Laura', 'laura@gmail.com', '2020-06-15 17:52:13', 2),
+(4, 1, 'Segunda reposta para Paulo!!', 'Maicon Tulio', 'maicon@gmail.com', '2020-06-17 18:07:34', 2),
+(5, 1, 'O terceiro comentÃ¡rio nesse post!!', 'Miguel Palantino', 'miguel@gmail.com', '2020-06-17 18:16:18', NULL),
+(6, 4, 'Primeiro comentÃ¡rio do quarto tÃ­tulo!', 'Tulio', 'tulio@gmail', '2020-06-17 20:56:14', NULL),
+(7, 1, 'Respondendo a Laura!!', 'Camila', 'camila@gmail.com', '2020-06-22 11:36:07', 2);

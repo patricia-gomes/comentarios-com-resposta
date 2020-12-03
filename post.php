@@ -116,7 +116,7 @@ if(!empty($_GET['id'])) {
 					<input type="hidden" name="id_comentario" value="<?php echo $id_comentario;  ?></">
 					<input type="hidden" name="id_post" value="<?php echo $_GET['id']; ?>">
 
-					<textarea class="caixa_comentarios" name="comentario" required="required" id="comentario_resposta" class="comentario_resposta"></textarea><br/><br/>
+					<textarea class="caixa_comentarios" name="comentario" required="required" id="comentario_resposta" class="comentario_resposta"><?php echo $values['name']; ?></textarea><br/><br/>
 
 					<input type="text" name="nome" placeholder="Nome" required="required" class="button_comment_resp" id="nome_resposta"><br/><br/>
 
